@@ -53,7 +53,7 @@ const OnBoardingPage = () => {
 
   const handleRandomAvatar = () => {
     const idx = Math.floor(Math.random() * 100) + 1; // Random index for profile picture
-    const randomAvatar = `https://api.dicebear.com/9.x/fun-emoji/svg?seed=${idx}`; // Generate a random profile picture URL
+    const randomAvatar = `https://avatar.iran.liara.run/public/${idx}`; // Generate a random profile picture URL
 
     setFormState({ ...formState, profilepic: randomAvatar });
     toast.success('Random avatar generated!', {

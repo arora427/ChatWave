@@ -29,7 +29,7 @@ export async function signup(req,res) {
         }
 
         const idx = Math.floor(Math.random()*100)+1;// Random index for profile picture
-        const profilepic = `https://api.dicebear.com/9.x/fun-emoji/svg?seed=${idx}`; // Generate a random profile picture URL
+        const profilepic = `https://avatar.iran.liara.run/public/${idx}`; // Generate a random profile picture URL
 
         const newUser = await User.create({
             email,

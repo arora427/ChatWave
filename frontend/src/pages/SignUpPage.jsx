@@ -4,6 +4,7 @@ import Logo from '../asset/Logo.png'
 import { Link } from 'react-router'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+
 import { signup } from '../lib/api.js'
 
 const SignupPage = () => {
@@ -27,8 +28,8 @@ const { mutate:signupMutation, isPending, error } = useMutation({
     signupMutation(signupData);
   }
   return (
-    <div className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8" data-theme="luxury">
-      <div className='border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden'>
+    <div className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8" data-theme="night">
+      <div className='border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden' >
         {/* Left side -sign up form */}
 
         <div className='w-full lg:w-1/2 p-4 sm:p-8 flex flex-col'>
