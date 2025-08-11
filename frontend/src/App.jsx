@@ -1,4 +1,3 @@
-import React from 'react'
 import { Routes, Route, Navigate } from 'react-router'
 import HomePage from './pages/HomePage.jsx'
 import SignUpPage from './pages/SignUpPage.jsx'
@@ -9,9 +8,10 @@ import ChatPage from './pages/ChatPage.jsx'
 import OnBoardingPage from './pages/OnBoardingPage.jsx'
 import { Toaster } from 'react-hot-toast'
 
-import PageLoader from '../components/PageLoader.jsx'
+import PageLoader from './components/PageLoader.jsx'
 
 import useAuthUser from './hooks/useAuthUser.js'
+
 
 const App = () => {
 
@@ -24,7 +24,11 @@ const App = () => {
     <div className=' h-screen text-5xl ' data-theme="dark">
 
       <Routes>
-        <Route path='/' element={isAuthenticated && isOnboarded ? (<HomePage />) : (<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
+        <Route path='/' element={isAuthenticated && isOnboarded ? (
+          <Layout>
+              <HomePage/>
+          </Layout>
+        ) : (<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
         <Route path='/signup' element={!isAuthenticated ? <SignUpPage /> : <Navigate 
         to={isOnboarded ? "/" : "/onboarding"} 
         />} />
