@@ -1,10 +1,9 @@
 import useAuthUser from '../hooks/useAuthUser.js'
 import { useLocation, Link } from 'react-router';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { logout } from '../lib/api.js';
 import Logo from '../asset/Logo.png';
 import { BellIcon, LogOutIcon } from 'lucide-react';
 import ThemeSelector from './ThemeSelector.jsx';
+import useLogout from '../hooks/useLogout.js';
 
 const Navbar = () => {
 
@@ -12,12 +11,14 @@ const Navbar = () => {
   const location = useLocation();
   const isChatPage = location.pathname?.startsWith("/chat");
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  const { mutate: logoutMutation } = useMutation({
-    mutationFn: logout,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] })
-  })
+  // const { mutate: logoutMutation } = useMutation({
+  //   mutationFn: logout,
+  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] })
+  // })
+
+  const {logoutMutation}=useLogout();
 
   return (
     <nav className='bg-base-200 borrder-b border-base-300 sticky top-0 z-30 h-16 flex items-center '>
