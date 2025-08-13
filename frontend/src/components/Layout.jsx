@@ -12,7 +12,7 @@ const Layout = ({children,showSideBar = false}) => {
                 <Navbar/>
 
                 <main className='flex-1 overflow-y-auto'>
-                    {children}childern
+                    {children}
                 </main>
             </div>
         </div>

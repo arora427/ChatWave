@@ -10,7 +10,7 @@ export async function getRecommendedUsers(req, res) {
         const recommendedUsers = await User.find({
             $and: [
                 { _id: { $ne: currentUserId } }, // Exclude current user
-                { $id: { $nin: currentUser.friends } },
+                { _id: { $nin: currentUser.friends } },
                 // Exclude friends
                 { isOnboarded: true } // Only include onboarded users
             ]
@@ -23,15 +23,25 @@ export async function getRecommendedUsers(req, res) {
 
 export async function getMyFriends(req, res) {
     try {
-        const user = await User.findById(req.user._id).select("friends").populate("friends", "fullname", "email", "profilepic", "bio", "nativeLanguage", "learningLanguage");
+        if (!req.user || !req.user._id) {
+            return res.status(401).json({ message: "Unauthorized: User not found in request" });
+        }
+
+        const user = await User.findById(req.user._id)
+            .select("friends")
+            .populate("friends", "fullname email profilepic bio nativeLanguage learningLanguage");
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
         res.status(200).json(user.friends);
     } catch (error) {
         console.error("Error fetching friends:", error);
         res.status(500).json({ message: "Internal server error" });
     }
-
-
 }
+
 
 export async function sendFriendRequest(req, res) {
     try {
@@ -143,3 +153,8 @@ export async function getOutgoingFriendReq(req,res) {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+
+// Add this function for testing
+export const testRoute = (req, res) => {
+    res.status(200).send("OK! The backend server is working and updated!");
+};
