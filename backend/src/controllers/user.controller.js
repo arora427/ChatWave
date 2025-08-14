@@ -128,10 +128,15 @@ export async function acceptFriendRequestname(req, res) {
 
 export async function getFriendRequests(req,res) {
     try {
+        // ADD THIS LINE to see which user ID is being used for the search
+        console.log("Searching for friend requests for recipient ID:", req.user.id);
         const incommingReqs= await FriendRequest.find({
             recipient:req.user.id,
             status:"pending",
-        }).populate("sender","fullname profilepic  nativeLanguage learningLanguage");
+        }).populate("sender","fullname profilepic bio nativeLanguage learningLanguage");
+
+        // ADD THIS LINE to see what the database query found
+        console.log("Query result (incomingReqs):", incommingReqs);
         const acceptedReqs= await FriendRequest.find({
             sender:req.user.id,
             status:"accepted",
