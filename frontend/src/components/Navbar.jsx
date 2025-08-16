@@ -18,8 +18,8 @@ const Navbar = () => {
           
           {/* only in chat page */}
           {isChatPage && (
-            <div className="pl-5">
-              <Link to="/" className="flex items-center gap-2.5">
+            <div className="pl-0 mr-auto">
+              <Link to="/" className="flex items-center gap-2.5 ">
                 <img src={Logo} className="w-auto h-9" />
                 <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-400 tracking-wider">
                   ChatWave
