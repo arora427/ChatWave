@@ -54,7 +54,7 @@ const Navbar = () => {
 
           {/* Logout Button */}
           <button className='btn btn-ghost btn-circle flex items-center justify-center' onClick={logoutMutation}>
-            <LogOutIcon className='h-4 w-4 sm:size-6 text-base-content opacity-70' />
+            <LogOutIcon className='h-5 w-5 sm:size-6 text-base-content opacity-70' />
           </button>
         </div>
       </div>
