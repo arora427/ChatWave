@@ -31,22 +31,23 @@ const Navbar = () => {
           {/* Notification Icon */}
           <Link to={"/notifications"}>
             <button className='btn btn-ghost btn-circle flex items-center justify-center'>
-              <BellIcon className='h-4 w-4 sm:size-6 text-base-content opacity-70' />
+              <BellIcon className='h-5 w-5 sm:size-6 text-base-content opacity-70' />
             </button>
           </Link>
 
           <Link to={"/friends"}>
           <button className='btn btn-ghost btn-circle flex items-center justify-center'>
-            <UsersRound className='h-4 w-4 sm:size-6 text-base-content opacity-70' />
+            <UsersRound className='h-5 w-5 sm:size-6 text-base-content opacity-70' />
           </button>
           </Link>
 
           {/* Theme Selector */}
           <ThemeSelector />
 
+
           {/* Avatar */}
           <div className="avatar flex items-center justify-center">
-            <div className=" w-7 sm:w-9  rounded-full">
+            <div className=" w-8 sm:w-9  rounded-full">
               <img src={authUser?.profilepic} alt="user avatar" rel='noreference' />
             </div>
           </div>
