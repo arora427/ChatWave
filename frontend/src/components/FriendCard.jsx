@@ -1,3 +1,4 @@
+import { MessageCircle, MessageCircleDashed, MessageSquareText } from 'lucide-react';
 import React from 'react';
 // Correct import for modern React Router (v6+)
 import { Link } from 'react-router';
@@ -20,7 +21,13 @@ function FriendCard({ friend }) {
           <div className="flex-1 min-w-0">
             <h3 className='font-semibold truncate text-lg'>{friend.fullname}</h3>
             {friend.bio && (
-              <p className='text-sm opacity-70 truncate mt-1'>{friend.bio}</p>
+              <p className='text-sm opacity-70 truncate mt-1'>
+                <div className="flex items-center text-xs opacity-70 mt-1">
+               <MessageCircleDashed className='size-4 mr-2'/>
+               {   friend.bio}
+               </div>
+               </p>
+              
             )}
           </div>
 
