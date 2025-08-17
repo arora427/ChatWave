@@ -37,3 +37,7 @@
   font-size: 0.875rem !important; /* This is 14px */
   color: #6b7280 !important;      /* This is a medium gray color */
 }
+
+.str-chat__message-input--emoji-picker-button {
+  display: flex !important;
+}

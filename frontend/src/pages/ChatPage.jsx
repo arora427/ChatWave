@@ -13,8 +13,10 @@ import {
   MessageList,
   Thread,
   Window,
+  
 } from 'stream-chat-react';
 import { StreamChat } from 'stream-chat';
+import { EmojiPicker } from 'stream-chat-react/emojis';
 import ChatLoader from '../components/ChatLoader.jsx';
 import CallButton from '../components/CallButton.jsx';
 
@@ -101,13 +103,13 @@ const ChatPage = () => {
     <div className='h-[93vh]'>
       {/* 👇 2. WRAP YOUR COMPONENTS IN THE CHAT PROVIDER */}
       <Chat client={chatClient}>
-        <Channel channel={channel}>
+        <Channel channel={channel} EmojiPicker={EmojiPicker}>
           <div className='w-full relative'>
-            <CallButton handleVideoCall={handleVideoCall}/>
+            <CallButton handleVideoCall={handleVideoCall}  />
             <Window>
               <ChannelHeader />
               <MessageList />
-              <MessageInput focus />
+              <MessageInput grow />
             </Window>
           </div>
           <Thread/>
