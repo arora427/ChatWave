@@ -162,7 +162,28 @@ export async function getOutgoingFriendReq(req,res) {
     }
 }
 
-// Add this function for testing
-export const testRoute = (req, res) => {
-    res.status(200).send("OK! The backend server is working and updated!");
+// In user.controller.js
+import { streamClient } from "../lib/stream.js"; // Import the client
+
+// ... other functions ...
+
+export const removeFriend = async (req, res) => {
+  try {
+    const currentUserId = req.user._id;
+    const { friendId } = req.params;
+
+    // 1. Remove friend from both users' friends lists in MongoDB
+    await User.findByIdAndUpdate(currentUserId, { $pull: { friends: friendId } });
+    await User.findByIdAndUpdate(friendId, { $pull: { friends: currentUserId } });
+
+    // 2. Remove users from the Stream Chat channel
+    const channelId = [currentUserId.toString(), friendId].sort().join("-");
+    const channel = streamClient.channel("messaging", channelId);
+    await channel.removeMembers([currentUserId.toString(), friendId]);
+
+    res.status(200).json({ message: "Friend removed successfully" });
+  } catch (error) {
+    console.error("Error removing friend:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
