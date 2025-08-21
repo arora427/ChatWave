@@ -39,10 +39,16 @@ const userSchema = new mongoose.Schema({
         type:String,
         default:"",
     },
+    hobbies:{
+        type:String,
+        default:"",
+    },
     friends: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+
     }]
+
 }, { timestamps: true });
 
 userSchema.pre("save", async function (next) {

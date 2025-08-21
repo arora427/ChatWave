@@ -17,8 +17,8 @@ const OnBoardingPage = () => {
     bio: authUser?.bio || '',
     profilepic: authUser?.profilepic || '',
     location: authUser?.location || '',
-    learningLanguage: authUser?.learningLanguage || '',
-    nativeLanguage: authUser?.nativeLanguage || '',
+    hobbies: authUser?.hobbies|| '',
+    
   });
 
   const { mutate: onboardingMutation, isPending } = useMutation({
@@ -109,6 +109,18 @@ const OnBoardingPage = () => {
                 className='input input-bordered w-full'
                 placeholder='Your Full Name' />
             </div>
+             {/* Hobbies */}
+             <div className='form-control'>
+              <label className='label'>
+                <span className='label-text'>Hobbies</span>
+              </label>
+              <textarea
+                name='bio'
+                value={formState.hobbies}
+                onChange={(e) => setFormState({ ...formState, hobbies: e.target.value })}
+                className='input input-bordered w-full'
+                placeholder='Add some hoobies' />
+            </div>
             {/* Bio */}
             <div className='form-control'>
               <label className='label'>
@@ -121,10 +133,11 @@ const OnBoardingPage = () => {
                 className='textarea textarea-bordered h-24'
                 placeholder='Tell us about yourself' />
             </div>
+           
             {/* Language */}
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            {/* <div className='grid grid-cols-1 md:grid-cols-2 gap-4'> */}
               {/* Native Language */}
-              <div className='form-control'>
+              {/* <div className='form-control'>
                 <label className='label'>
                   <span className='label-text'>Native Language</span>
                 </label>
@@ -138,9 +151,9 @@ const OnBoardingPage = () => {
                     <option key={`native-${lang}`} value={lang.toLowerCase()}>{lang}</option>
                   ))}
                 </select>
-              </div>
+              </div> */}
               {/* Learning Language */}
-              <div className='form-control'>
+              {/* <div className='form-control'>
                 <label className='label'>
                   <span className='label-text'>Learning Language</span>
                 </label>
@@ -155,7 +168,7 @@ const OnBoardingPage = () => {
                   ))}
                 </select>
               </div>
-            </div>
+            </div> */}
             {/* Location */}
             <div className='form-control'>
               <label className='label'>
