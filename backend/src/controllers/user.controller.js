@@ -154,7 +154,7 @@ export async function getOutgoingFriendReq(req,res) {
       const outgoingRequests= await FriendRequest.find({
         sender:req.user.id,
         status:"pending"
-      }).populate("recipient","fullname profilepic nativeLanguage learningLanguage");  
+      }).populate("recipient","fullname profilepic bio");  
       res.status(200).json(outgoingRequests);
     } catch (error) {
         console.log("Error fetching outgoing friend requests:", error.message);
@@ -168,22 +168,41 @@ import { streamClient } from "../lib/stream.js"; // Import the client
 // ... other functions ...
 
 export const removeFriend = async (req, res) => {
-  try {
-    const currentUserId = req.user._id;
-    const { friendId } = req.params;
+	try {
+		const currentUserId = req.user._id;
+		const { friendId } = req.params;
 
-    // 1. Remove friend from both users' friends lists in MongoDB
-    await User.findByIdAndUpdate(currentUserId, { $pull: { friends: friendId } });
-    await User.findByIdAndUpdate(friendId, { $pull: { friends: currentUserId } });
+		// 1. Remove friend from both users' friends lists in MongoDB
+		await User.findByIdAndUpdate(currentUserId, { $pull: { friends: friendId } });
+		await User.findByIdAndUpdate(friendId, { $pull: { friends: currentUserId } });
 
-    // 2. Remove users from the Stream Chat channel
-    const channelId = [currentUserId.toString(), friendId].sort().join("-");
-    const channel = streamClient.channel("messaging", channelId);
-    await channel.removeMembers([currentUserId.toString(), friendId]);
+		// 2. Delete the old 'accepted' friend request document to allow for future requests
+		await FriendRequest.deleteOne({
+			$or: [
+				{ sender: currentUserId, recipient: friendId, status: "accepted" },
+				{ sender: friendId, recipient: currentUserId, status: "accepted" },
+			],
+		});
 
-    res.status(200).json({ message: "Friend removed successfully" });
-  } catch (error) {
-    console.error("Error removing friend:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
+		// 3. Safely clean up the Stream Chat channel
+		if (streamClient) {
+			const channelId = [currentUserId.toString(), friendId].sort().join("-");
+			const channel = streamClient.channel("messaging", channelId);
+
+			// This .catch() prevents a Stream error from crashing the entire function
+			await channel.removeMembers([currentUserId.toString(), friendId]).catch((err) => {
+				console.error("Stream Chat API error during member removal:", err.message);
+				// We don't re-throw the error, allowing the main response to succeed
+			});
+		} else {
+			console.warn("streamClient is not initialized. Skipping Stream Chat cleanup.");
+		}
+
+		// 4. Send a final success response
+		res.status(200).json({ message: "Friend removed successfully." });
+		
+	} catch (error) {
+		console.error("Critical error in removeFriend:", error);
+		res.status(500).json({ message: "Internal server error" });
+	}
 };
