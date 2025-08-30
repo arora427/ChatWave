@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import useAuthUser from '../hooks/useAuthUser.js';
 import { useQuery } from '@tanstack/react-query';
-import { getStreamToken } from '../lib/api';
+import { getStreamToken } from '../lib/api.js';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -42,7 +42,12 @@ const ChatPage = () => {
       if (!tokenData?.token || !authUser) return;
 
       try {
-        const client = StreamChat.getInstance(STREAM_API_KEY);
+        
+      const options = { disableOffline: true };
+      
+      // 2. PASS THE OPTIONS TO THE CLIENT INSTANCE
+      const client = StreamChat.getInstance(STREAM_API_KEY, options);
+        
 
         await client.connectUser(
           {
